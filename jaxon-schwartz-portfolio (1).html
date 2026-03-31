@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jaxon Schwartz — Business Analytics & Technology</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1A1A18;
+    --red: #C0392B;
+    --gold: #B8860B;
+    --tan: #D4C5A9;
+    --text: #2C2C2A;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: var(--dark);
+    border-bottom: 2px solid var(--red);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--tan);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.25s;
+  }
+  .nav-links a:hover { color: var(--red); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: var(--dark);
+    padding-top: 64px;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 5rem;
+    animation: slideUp 0.9s ease both;
+  }
+  .hero-eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1.0;
+    margin-bottom: 1.5rem;
+  }
+  .hero-name span { color: var(--red); }
+  .hero-tagline {
+    font-size: 1.05rem;
+    color: var(--tan);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-cta-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red);
+    color: var(--cream);
+    padding: 0.85rem 2rem;
+    border: 2px solid var(--red);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: transparent; color: var(--red); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--tan);
+    padding: 0.85rem 2rem;
+    border: 2px solid var(--tan);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.25s, color 0.25s;
+    display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--cream); color: var(--cream); }
+
+  .hero-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .hero-graphic {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hex-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    gap: 4px;
+    opacity: 0.07;
+    transform: rotate(15deg) scale(1.5);
+  }
+  .hex {
+    width: 60px; height: 60px;
+    background: var(--cream);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  .hex:nth-child(odd) { animation-delay: 1s; }
+  .hero-card {
+    position: relative;
+    z-index: 2;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    padding: 3rem 2.5rem;
+    width: 280px;
+    animation: slideUp 1s 0.3s ease both;
+  }
+  .hero-card-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.2rem;
+  }
+  .hero-card-stat {
+    margin-bottom: 1.5rem;
+  }
+  .hero-card-stat .num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .hero-card-stat .desc {
+    font-size: 0.8rem;
+    color: var(--tan);
+    margin-top: 0.25rem;
+  }
+  .hero-card-divider {
+    height: 1px; background: rgba(255,255,255,0.1); margin: 1.2rem 0;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 6rem 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 3rem; }
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 700;
+    color: var(--dark);
+    line-height: 1.15;
+    margin-bottom: 3rem;
+  }
+  .section-title em { color: var(--red); font-style: normal; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--cream); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .about-body {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: #4A4A48;
+    font-weight: 300;
+  }
+  .about-body p + p { margin-top: 1.2rem; }
+  .about-sidebar {}
+  .about-info-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--tan);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .about-info-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .about-info-value {
+    font-size: 0.9rem;
+    color: var(--dark);
+    text-align: right;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--dark); }
+  #education .section-title { color: var(--cream); }
+  .edu-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .edu-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 2.5rem;
+    position: relative;
+    transition: border-color 0.25s;
+  }
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px; height: 100%;
+    background: var(--red);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.35s ease;
+  }
+  .edu-card:hover::before { transform: scaleY(1); }
+  .edu-card:hover { border-color: rgba(192,57,43,0.4); }
+  .edu-school {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--cream);
+    margin-bottom: 0.4rem;
+  }
+  .edu-degree {
+    font-size: 0.9rem;
+    color: var(--red);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+  }
+  .edu-meta {
+    font-size: 0.78rem;
+    color: var(--tan);
+    margin-bottom: 1.5rem;
+    display: flex; gap: 1.5rem;
+  }
+  .edu-courses-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 0.6rem;
+  }
+  .edu-course-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tag {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    font-size: 0.75rem;
+    color: var(--tan);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--cream); }
+  .exp-entry {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid var(--tan);
+  }
+  .exp-meta {}
+  .exp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--red);
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+  .exp-date {
+    font-size: 0.75rem;
+    color: #888;
+    letter-spacing: 0.08em;
+  }
+  .exp-bullets { list-style: none; }
+  .exp-bullets li {
+    padding: 0.45rem 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #4A4A48;
+    padding-left: 1.2rem;
+    position: relative;
+    font-weight: 300;
+  }
+  .exp-bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--red);
+    font-size: 0.75rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: #F0EAE0; }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .skill-card {
+    background: var(--cream);
+    border: 1px solid var(--tan);
+    padding: 1.75rem;
+    transition: border-color 0.25s, transform 0.2s;
+    cursor: default;
+  }
+  .skill-card:hover {
+    border-color: var(--red);
+    transform: translateY(-3px);
+  }
+  .skill-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+  }
+  .skill-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--dark);
+    margin-bottom: 0.3rem;
+  }
+  .skill-desc {
+    font-size: 0.8rem;
+    color: #888;
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--dark); }
+  #contact .section-title { color: var(--cream); }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .contact-intro {
+    font-size: 1rem;
+    color: var(--tan);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+  .contact-links { list-style: none; }
+  .contact-links li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .contact-links a {
+    color: var(--tan);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .contact-links a:hover { color: var(--red); }
+  .contact-icon { font-size: 1.1rem; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-form input,
+  .contact-form textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--cream);
+    padding: 0.9rem 1.2rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .contact-form input::placeholder,
+  .contact-form textarea::placeholder { color: #555; }
+  .contact-form input:focus,
+  .contact-form textarea:focus { border-color: var(--red); }
+  .contact-form textarea { min-height: 130px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #111110;
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-text { font-size: 0.78rem; color: #555; }
+  .footer-name {
+    font-family: 'Playfair Display', serif;
+    color: var(--cream);
+    font-size: 1rem;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 4rem 2rem; }
+    .about-grid, .edu-cards, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-entry { grid-template-columns: 1fr; gap: 0.75rem; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    nav { padding: 1rem 1.5rem; }
+    .container { padding: 0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">JS</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Business Analytics & Technology</p>
+    <h1 class="hero-name">Jaxon<br><span>Schwartz</span></h1>
+    <p class="hero-tagline">Future-driven business analytics student at Rutgers Business School, combining data insight with strong customer service fundamentals and a passion for problem-solving.</p>
+    <div class="hero-cta-row">
+      <a href="#contact" class="btn-primary">Get In Touch</a>
+      <a href="#experience" class="btn-ghost">View Experience</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-graphic">
+      <div class="hex-grid">
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+        <div class="hex"></div><div class="hex"></div><div class="hex"></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <p class="hero-card-label">At a glance</p>
+      <div class="hero-card-stat">
+        <div class="num">3.47</div>
+        <div class="desc">GPA at Fairleigh Dickinson</div>
+      </div>
+      <div class="hero-card-divider"></div>
+      <div class="hero-card-stat">
+        <div class="num">3+</div>
+        <div class="desc">Years of customer service</div>
+      </div>
+      <div class="hero-card-divider"></div>
+      <div class="hero-card-stat">
+        <div class="num">50+</div>
+        <div class="desc">Customers served per shift</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">Who I Am</p>
+    <h2 class="section-title">A driven student &<br><em>emerging professional</em></h2>
+    <div class="about-grid">
+      <div class="about-body">
+        <p>I'm a Business Analytics and Information Technology student at Rutgers Business School, currently building the technical and analytical foundation needed to thrive in today's data-driven business world.</p>
+        <p>My background is a blend of academic rigor and real-world experience. While studying topics like supply chain, financial accounting, and marketing, I've also spent years on the front lines of customer service — learning how to communicate clearly, solve problems under pressure, and keep people happy.</p>
+        <p>I'm excited about leveraging technology and data to make smarter business decisions, and I'm always looking for new opportunities to grow, collaborate, and contribute.</p>
+      </div>
+      <div class="about-sidebar">
+        <div class="about-info-item">
+          <span class="about-info-label">Location</span>
+          <span class="about-info-value">Old Bridge, NJ</span>
+        </div>
+        <div class="about-info-item">
+          <span class="about-info-label">Email</span>
+          <span class="about-info-value">jls845@scarletmail.rutgers.edu</span>
+        </div>
+        <div class="about-info-item">
+          <span class="about-info-label">Phone</span>
+          <span class="about-info-value">(908) 356-3523</span>
+        </div>
+        <div class="about-info-item">
+          <span class="about-info-label">University</span>
+          <span class="about-info-value">Rutgers Business School</span>
+        </div>
+        <div class="about-info-item">
+          <span class="about-info-label">Graduating</span>
+          <span class="about-info-value">June 2029</span>
+        </div>
+        <div class="about-info-item">
+          <span class="about-info-label">Language</span>
+          <span class="about-info-value">English (Native)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <p class="section-label">Academic Background</p>
+    <h2 class="section-title" style="color:var(--cream)">Building a <em>strong foundation</em></h2>
+    <div class="edu-cards">
+      <div class="edu-card">
+        <h3 class="edu-school">Rutgers Business School</h3>
+        <p class="edu-degree">B.S. Business Analytics & Information Technology</p>
+        <div class="edu-meta">
+          <span>Newark, NJ</span>
+          <span>Graduating Jun 2029</span>
+        </div>
+        <p class="edu-courses-label">Relevant Coursework</p>
+        <div class="edu-course-tags">
+          <span class="tag">Intro to Marketing</span>
+          <span class="tag">Supply Chain</span>
+          <span class="tag">Introduction to Management</span>
+        </div>
+      </div>
+      <div class="edu-card">
+        <h3 class="edu-school">Fairleigh Dickinson University</h3>
+        <p class="edu-degree">Business Management Information Systems</p>
+        <div class="edu-meta">
+          <span>Madison, NJ</span>
+          <span>Dec 2025 · GPA: 3.47</span>
+        </div>
+        <p class="edu-courses-label">Relevant Coursework</p>
+        <div class="edu-course-tags">
+          <span class="tag">Math for Business Decisions</span>
+          <span class="tag">Financial Accounting</span>
+          <span class="tag">MIS for Business</span>
+          <span class="tag">Ethics in Social Institutions</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Work Experience</p>
+    <h2 class="section-title">Where I've <em>made an impact</em></h2>
+
+    <div class="exp-entry">
+      <div class="exp-meta">
+        <p class="exp-title">Customer Service</p>
+        <p class="exp-company">Lisa Pizza & Italian Restaurant</p>
+        <p class="exp-date">Jun 2022 — Present<br>Laurence Harbor, NJ</p>
+      </div>
+      <ul class="exp-bullets">
+        <li>Served 50+ customers per shift while maintaining high-quality service standards in a fast-paced environment.</li>
+        <li>Managed order accuracy and timely food delivery across 50+ in-person and phone orders per shift.</li>
+        <li>Handled cash and card transactions responsibly, maintaining accuracy and professionalism at all times.</li>
+        <li>Delivered food directly to 10+ customers' homes each shift, ensuring on-time and professional service.</li>
+        <li>Identified recurring customer requests and communicated key trends to team members to improve service.</li>
+        <li>Adapted to changing priorities and workflow demands to support smooth daily restaurant operations.</li>
+        <li>Applied critical thinking to solve customer-facing problems under pressure with composure and creativity.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Capabilities</p>
+    <h2 class="section-title">Skills &amp; <em>competencies</em></h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">📊</div>
+        <p class="skill-name">Microsoft Excel</p>
+        <p class="skill-desc">Basic formulas, data entry, and spreadsheet organization for business use.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗣️</div>
+        <p class="skill-name">Communication</p>
+        <p class="skill-desc">Professional customer-facing communication built through years of service experience.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🤝</div>
+        <p class="skill-name">Team Collaboration</p>
+        <p class="skill-desc">Reliable team member who works well in group settings and adapts to team needs.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🧠</div>
+        <p class="skill-name">Problem Solving</p>
+        <p class="skill-desc">Strong critical thinking skills with the ability to generate ideas and find solutions under pressure.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🗂️</div>
+        <p class="skill-name">Data Organization</p>
+        <p class="skill-desc">Meticulous attention to detail in organizing information and maintaining accuracy.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⏱️</div>
+        <p class="skill-name">Time Management</p>
+        <p class="skill-desc">Consistently manages competing priorities and deadlines with discipline and efficiency.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">💻</div>
+        <p class="skill-name">Microsoft Office Suite</p>
+        <p class="skill-desc">Proficient in Word and PowerPoint for professional documents and presentations.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">➗</div>
+        <p class="skill-name">Mathematical Aptitude</p>
+        <p class="skill-desc">Strong foundation in business math, financial accounting, and quantitative reasoning.</p>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">⭐</div>
+        <p class="skill-name">Customer Service</p>
+        <p class="skill-desc">3+ years of hands-on experience delivering exceptional service and building customer satisfaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Let's Connect</p>
+    <h2 class="section-title" style="color:var(--cream)">Get in <em>touch</em></h2>
+    <div class="contact-grid">
+      <div>
+        <p class="contact-intro">Whether you're interested in connecting professionally, discussing opportunities, or just want to reach out — I'd love to hear from you.</p>
+        <ul class="contact-links">
+          <li>
+            <span class="contact-icon">✉️</span>
+            <a href="mailto:jls845@scarletmail.rutgers.edu">jls845@scarletmail.rutgers.edu</a>
+          </li>
+          <li>
+            <span class="contact-icon">📞</span>
+            <a href="tel:9083563523">(908) 356-3523</a>
+          </li>
+          <li>
+            <span class="contact-icon">💼</span>
+            <a href="https://www.linkedin.com/in/jaxon-schwartz-0814973a9" target="_blank">LinkedIn Profile</a>
+          </li>
+          <li>
+            <span class="contact-icon">📍</span>
+            <a href="#">Old Bridge, NJ 08879</a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div class="contact-form">
+          <input type="text" placeholder="Your Name">
+          <input type="email" placeholder="Your Email">
+          <input type="text" placeholder="Subject">
+          <textarea placeholder="Your message..."></textarea>
+          <button class="btn-primary" onclick="alert('Thanks for reaching out!')">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Jaxon Schwartz</span>
+  <span class="footer-text">© 2025 · Business Analytics & IT · Rutgers Business School</span>
+</footer>
+
+</body>
+</html>
